@@ -2,8 +2,8 @@
 # Adjust settings here to define model size, class details, and dataset paths
 
 model_size: nano  # Options: nano, small, medium, large, x-large
-num_classes: 3    # Number of classes
-class_names: ['Class 1', 'Class 2', 'Class 3']  # A list of class names
+num_classes: 1   # Number of classes
+class_names: ['Vehicle']  # A list of class names
 
 train: fed_dataset/train/images  # Configure paths (usually not needed to be configured)
 val: fed_dataset/valid/images

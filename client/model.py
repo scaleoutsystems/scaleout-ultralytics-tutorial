@@ -36,7 +36,7 @@ def load_parameters(model_path):
         model = YOLO(tmp_file.name)
     return model
 
-def save_parameters(model, out_path):
+def save_parameters(model, out_path=None):
     """Save model parameters to file.
 
     :param model: The model to serialize.
@@ -45,7 +45,8 @@ def save_parameters(model, out_path):
     :type out_path: str
     """
     parameters_np = [val.cpu().numpy() for _, val in model.state_dict().items()]
-    helper.save(parameters_np, out_path)
+    params = helper.save(parameters_np, out_path)
+    return params
 
 def init_seed(out_path):
     model = compile_model()

@@ -9,7 +9,7 @@ from model import load_parameters, save_parameters
 from data import get_train_size
 import yaml
 
-def train(in_model_path, out_model_path, epochs=10, data_yaml_path='data.yaml', batch_size=16):
+def train(in_model, settings, epochs=10, data_yaml_path='data.yaml', batch_size=16):
     """Complete a model update using YOLOv8.
 
     Load model parameters from in_model_path (managed by the FEDn client),
@@ -31,7 +31,7 @@ def train(in_model_path, out_model_path, epochs=10, data_yaml_path='data.yaml', 
     """
 
     # Load YOLOv8 model
-    model = load_parameters(in_model_path)
+    model = load_parameters(in_model)
 
     # Load the client configuration 
     config_path = os.path.join(os.path.dirname(__file__), '../../client_config.yaml')
@@ -48,15 +48,14 @@ def train(in_model_path, out_model_path, epochs=10, data_yaml_path='data.yaml', 
         model.train(data='data.yaml', epochs=epochs,batch=batch_size,verbose=False,exist_ok=True, project=tmp_dir)
 
     # Save the updated model to the output path
-    save_parameters(model, out_model_path)
+    out_model = save_parameters(model)
 
     # Metadata needed for aggregation server side
     metadata = {
         "num_examples": get_train_size(data_yaml_path),  # Get number of examples
     }
 
-    # Save JSON metadata file (mandatory for FEDn)
-    save_metadata(metadata, out_model_path)
+    return out_model, metadata
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:

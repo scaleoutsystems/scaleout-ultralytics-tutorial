@@ -7,7 +7,7 @@ from fedn.utils.helpers.helpers import save_metrics
 
 from model import load_parameters
 
-def validate(in_model_path, out_json_path, data_yaml_path='data.yaml'):
+def validate(in_model, out_json_path, data_yaml_path='data.yaml'):
     """Validate YOLO model.
 
     :param in_model_path: The path to the input model.
@@ -18,7 +18,7 @@ def validate(in_model_path, out_json_path, data_yaml_path='data.yaml'):
     :type data_yaml_path: str
     """
     # Load YOLOv8 model
-    model = load_parameters(in_model_path)
+    model = load_parameters(in_model)
 
     # Evaluate the model on both train and test datasets using YOLO's val() method
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -37,8 +37,7 @@ def validate(in_model_path, out_json_path, data_yaml_path='data.yaml'):
         "test_mAP50-95": test_results.results_dict['metrics/mAP50-95(B)'],  # mAP for testing data
     }
 
-    # Save JSON report (mandatory for FEDn)
-    save_metrics(report, out_json_path)
+    return report
 
 
 if __name__ == "__main__":
