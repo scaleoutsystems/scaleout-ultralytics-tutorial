@@ -3,6 +3,7 @@ from ultralytics import YOLO
 import torch
 import collections
 import tempfile
+import io
 
 HELPER_MODULE = "numpyhelper"
 helper = get_helper(HELPER_MODULE)
@@ -41,6 +42,8 @@ def save_parameters(model, out_path=None):
 
     :param model: The model to serialize.
     :type model: torch.nn.Module
+    :param buffer: The buffer to write to.
+    :type buffer: io.BytesIO
     :param out_path: The path to save to.
     :type out_path: str
     """
@@ -50,7 +53,7 @@ def save_parameters(model, out_path=None):
 
 def init_seed(out_path):
     model = compile_model()
-    save_parameters(model, out_path)
+    save_parameters(model, io.BytesIO(), out_path)
 
 if __name__ == "__main__":
     init_seed('../seed.npz')

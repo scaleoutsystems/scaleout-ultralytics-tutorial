@@ -4,6 +4,7 @@ from ultralytics import YOLO
 import torch
 from fedn.utils.helpers.helpers import save_metadata
 import tempfile
+import io
 
 from model import load_parameters, save_parameters
 from data import get_train_size
@@ -34,7 +35,7 @@ def train(in_model, settings, epochs=10, data_yaml_path='data.yaml', batch_size=
     model = load_parameters(in_model)
 
     # Load the client configuration 
-    config_path = os.path.join(os.path.dirname(__file__), '../../client_config.yaml')
+    config_path = os.path.join(os.path.dirname(__file__), '../client_config.yaml')
     if os.path.exists(config_path):
         with open(config_path, 'r') as file:
             config = yaml.safe_load(file)
@@ -45,17 +46,17 @@ def train(in_model, settings, epochs=10, data_yaml_path='data.yaml', batch_size=
 
     # Train the model and remove the unnecessary files
     with tempfile.TemporaryDirectory() as tmp_dir:
-        model.train(data='data.yaml', epochs=epochs,batch=batch_size,verbose=False,exist_ok=True, project=tmp_dir)
+        model.train(data=data_yaml_path, epochs=epochs,batch=batch_size,verbose=False,exist_ok=True, project=tmp_dir)
 
     # Save the updated model to the output path
-    out_model = save_parameters(model)
+    out_model = save_parameters(model, io.BytesIO())
 
     # Metadata needed for aggregation server side
     metadata = {
         "num_examples": get_train_size(data_yaml_path),  # Get number of examples
     }
 
-    return out_model, metadata
+    return out_model, {"training_metadata": metadata}
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
