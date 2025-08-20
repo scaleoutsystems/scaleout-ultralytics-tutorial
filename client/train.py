@@ -35,7 +35,7 @@ def train(in_model, settings, epochs=10, data_yaml_path='data.yaml', batch_size=
     model = load_parameters(in_model)
 
     # Load the client configuration 
-    config_path = os.path.join(os.path.dirname(__file__), '../client_config.yaml')
+    config_path = os.path.join(os.path.dirname(__file__), 'client_config.yaml')
     if os.path.exists(config_path):
         with open(config_path, 'r') as file:
             config = yaml.safe_load(file)

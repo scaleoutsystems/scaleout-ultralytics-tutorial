@@ -7,7 +7,7 @@ from fedn.utils.helpers.helpers import save_metrics
 
 from model import load_parameters
 
-def validate(in_model, out_json_path, data_yaml_path='data.yaml'):
+def validate(in_model, data_yaml_path='data.yaml'):
     """Validate YOLO model.
 
     :param in_model_path: The path to the input model.
