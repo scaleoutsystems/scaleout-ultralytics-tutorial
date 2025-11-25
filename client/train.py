@@ -6,7 +6,7 @@ from fedn.utils.helpers.helpers import save_metadata
 import tempfile
 import io
 
-from model import load_parameters, save_parameters
+from model import load_parameters, save_parameters, get_best_device
 from data import get_train_size
 import yaml
 
@@ -44,9 +44,10 @@ def train(in_model, settings, epochs=10, data_yaml_path='data.yaml', batch_size=
     else:
         print(f"Client config file not found at {config_path}. Using default epochs ({epochs}) and batch size ({batch_size}).")
 
+    device = get_best_device()
     # Train the model and remove the unnecessary files
     with tempfile.TemporaryDirectory() as tmp_dir:
-        model.train(data=data_yaml_path, epochs=epochs,batch=batch_size,verbose=False,exist_ok=True, project=tmp_dir)
+        model.train(data=data_yaml_path, device=device, epochs=epochs, batch=batch_size, verbose=False, exist_ok=True, project=tmp_dir)
 
     # Save the updated model to the output path
     out_model = save_parameters(model, io.BytesIO())

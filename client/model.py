@@ -8,13 +8,21 @@ import io
 HELPER_MODULE = "numpyhelper"
 helper = get_helper(HELPER_MODULE)
 
-def compile_model():
+def get_best_device():
+    """
+    Get the best device for training.
+    """
     if torch.cuda.is_available():
-        device = 'cuda' 
+        return 'cuda'
     elif torch.backends.mps.is_available():
-        device = 'mps'
+        return 'mps'
     else:
-        device = 'cpu'
+        return 'cpu'
+
+def compile_model():
+    """Compile the YOLO model.
+    """
+    device = get_best_device()
     return YOLO('model.yaml').to(device)
 
 

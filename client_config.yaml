@@ -1,3 +1,3 @@
-local_epochs: 10 # DEFINE NUMBER OF LOCAL EPOCHS HERE
+local_epochs: 3 # DEFINE NUMBER OF LOCAL EPOCHS HERE
 
 batch_size: 16 # DEFINE BATCH SIZE HERE: int for regular batch size, float for specified GPU utilization fraction (batch_size=0.70, 70% GPU memory utilization).
