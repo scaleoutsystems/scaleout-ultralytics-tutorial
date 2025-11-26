@@ -42,6 +42,8 @@ class MyClient(EdgeClient):
         :type lr: float
         """
 
+        device = get_best_device()
+
         # Load YOLOv8 model
         model = load_parameters(model)
 
@@ -55,14 +57,14 @@ class MyClient(EdgeClient):
         else:
             print(f"Client config file not found at {config_path}. Using default epochs ({epochs}) and batch size ({batch_size}).")
 
-        device = get_best_device()
+        model.add_callback('on_train_batch_start', lambda trainer: self.client.check_task_abort())
+
         # Train the model and remove the unnecessary files
         with tempfile.TemporaryDirectory() as tmp_dir:
             model.train(data=data_yaml_path, device=device, epochs=epochs, batch=batch_size, verbose=False, exist_ok=True, project=tmp_dir)
 
         # Save the updated model to the output path
         out_model = save_parameters(model)
-        self.client.check_task_abort()
 
         # Metadata needed for aggregation server side
         metadata = {
