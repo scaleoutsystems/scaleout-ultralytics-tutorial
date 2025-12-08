@@ -2,7 +2,7 @@ from scaleout import EdgeClient, ScaleoutModel
 from scaleoututil.helpers.helpers import get_helper
 
 from model import load_parameters, save_parameters, get_best_device
-from data import get_train_size
+from data import get_dataset_size
 
 import os
 import yaml
@@ -61,14 +61,14 @@ class MyClient(EdgeClient):
 
         # Train the model and remove the unnecessary files
         with tempfile.TemporaryDirectory() as tmp_dir:
-            model.train(data=data_yaml_path, device=device, epochs=epochs, batch=batch_size, verbose=False, exist_ok=True, project=tmp_dir)
+            model.train(data=data_yaml_path, device=device, epochs=epochs, batch=batch_size, verbose=False, exist_ok=True, save=False, plots=False, val=False, project=tmp_dir)
 
         # Save the updated model to the output path
         out_model = save_parameters(model)
 
         # Metadata needed for aggregation server side
         metadata = {
-            "num_examples": get_train_size(data_yaml_path),  # Get number of examples
+            "num_examples": get_dataset_size(data_yaml_path, 'train'),  # Get number of examples
         }
 
         return out_model, {"training_metadata": metadata}
@@ -88,8 +88,8 @@ class MyClient(EdgeClient):
 
         # Evaluate the model on both train and test datasets using YOLO's val() method
         with tempfile.TemporaryDirectory() as tmp_dir:
-            train_results = model.val(data=data_yaml_path, split='train', verbose=False, exist_ok=True,project=tmp_dir)
-            test_results = model.val(data=data_yaml_path, split='val', verbose=False, exist_ok=True,project=tmp_dir)
+            train_results = model.val(data=data_yaml_path, split='train', verbose=False, exist_ok=True, plots=False, save=False, project=tmp_dir)
+            test_results = model.val(data=data_yaml_path, split='val', verbose=False, exist_ok=True, plots=False, save=False, project=tmp_dir)
 
         # Extract metrics from the results
         report = {
