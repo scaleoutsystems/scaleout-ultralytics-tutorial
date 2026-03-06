@@ -11,8 +11,7 @@ HELPER_MODULE = "numpyhelper"
 helper = get_helper(HELPER_MODULE)
 
 def get_best_device():
-    """
-    Get the best device for training.
+    """ Get the best device for training.
     """
     if torch.cuda.is_available():
         return 'cuda'
@@ -22,14 +21,14 @@ def get_best_device():
         return 'cpu'
 
 def compile_model():
-    """Compile the YOLO model.
+    """ Compile the YOLO model.
     """
     device = get_best_device()
     return YOLO('model.yaml').to(device)
 
 
 def load_parameters(model: ScaleoutModel):
-    """Load model parameters from file and populate model.
+    """ Load model parameters from file and populate model.
 
     param model_path: The path to load from.
     :type model_path: str
@@ -56,7 +55,7 @@ def load_parameters(model: ScaleoutModel):
     return yolo_model
 
 def save_parameters(model):
-    """Save model parameters to file.
+    """ Save model parameters to file.
 
     :param model: The model to serialize.
     :type model: torch.nn.Module
