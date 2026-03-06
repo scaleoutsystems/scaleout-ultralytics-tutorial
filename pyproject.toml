@@ -1,0 +1,10 @@
+[project]
+name = "scaleout-ultralytics-tutorial"
+version = "1.0.0"
+description = "A tutorial project demonstrating the integration of Scaleout with Ultralytics for object detection tasks."
+readme = "README.md"
+requires-python = ">=3.12, <3.13"
+dependencies = [
+    "scaleout>=1.0.0b2",
+    "ultralytics==8.4.21",
+]
