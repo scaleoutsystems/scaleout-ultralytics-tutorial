@@ -1,5 +1,0 @@
-entry_points:
-    build:
-        command: python3 model.py
-    startup:
-        startup.py
