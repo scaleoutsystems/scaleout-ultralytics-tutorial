@@ -1,8 +1,0 @@
-name: .venv
-build_dependencies:
-  - pip
-  - setuptools
-  - wheel
-dependencies:
-  - ultralytics==8.2.91
-  - torch==2.4.1

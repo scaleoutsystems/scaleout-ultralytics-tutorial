@@ -1,6 +1,0 @@
-train: datasets/fed_dataset/train/images
-val: datasets/fed_dataset/valid/images
-test: datasets/fed_dataset/test/images
-nc: 1
-names:
-  0: Vehicle
