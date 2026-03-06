@@ -2,3 +2,6 @@
 .venv/
 datasets/
 *__pycache__/
+seed.npz
+.DS_Store
+.python-version
