@@ -24,7 +24,7 @@ def compile_model():
     """ Compile the YOLO model.
     """
     device = get_best_device()
-    return YOLO('model.yaml').to(device)
+    return YOLO('client_config.yaml').to(device)
 
 
 def load_parameters(model: ScaleoutModel):

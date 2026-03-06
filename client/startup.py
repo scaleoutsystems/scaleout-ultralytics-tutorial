@@ -21,7 +21,7 @@ class MyClient(EdgeClient):
         client.set_train_callback(self.train)
         client.set_validate_callback(self.validate)
 
-    def train(self, model: ScaleoutModel, settings, epochs=10, data_yaml_path='../client_config.yaml', batch_size=16):
+    def train(self, model: ScaleoutModel, settings, epochs=10, data_yaml_path='client_config.yaml', batch_size=16):
         """Complete a model update using YOLOv8.
 
         Load model parameters from in_model_path (managed by the Scaleout client),
@@ -49,7 +49,7 @@ class MyClient(EdgeClient):
         model = load_parameters(model)
 
         # Load the client configuration 
-        config_path = os.path.join(os.path.dirname(__file__), '../client_config.yaml')
+        config_path = os.path.join(os.path.dirname(__file__), 'client_config.yaml')
         if os.path.exists(config_path):
             with open(config_path, 'r') as file:
                 config = yaml.safe_load(file)
@@ -74,7 +74,7 @@ class MyClient(EdgeClient):
 
         return out_model, {"training_metadata": metadata}
 
-    def validate(self, model, data_yaml_path='../client_config.yaml'):
+    def validate(self, model, data_yaml_path='client_config.yaml'):
         """Validate YOLO model.
 
         :param in_model_path: The path to the input model.

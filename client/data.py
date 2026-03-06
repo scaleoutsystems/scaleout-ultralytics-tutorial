@@ -11,7 +11,7 @@ def get_yolo_datasets_path():
     """    
     return settings['datasets_dir']
 
-def get_dataset_size(yaml_path='../client_config.yaml', split='train'):
+def get_dataset_size(yaml_path='client_config.yaml', split='train'):
     """ Counts images in a YOLO dataset split using fast directory scanning.
     
     Args:
