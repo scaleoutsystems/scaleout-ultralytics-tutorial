@@ -74,6 +74,3 @@ def init_seed(out_path):
 
 def build():
     init_seed('seed.npz')
-
-if __name__ == "__main__":
-    init_seed('../seed.npz')
