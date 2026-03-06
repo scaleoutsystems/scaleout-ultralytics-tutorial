@@ -1,0 +1,4 @@
+.scaleout/
+.venv/
+datasets/
+*__pycache__/
