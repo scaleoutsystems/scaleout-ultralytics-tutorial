@@ -1,3 +1,47 @@
-local_epochs: 10 # DEFINE NUMBER OF LOCAL EPOCHS HERE
+# Local training settings
+local_epochs: 3
+batch_size: 16
 
-batch_size: 16 # DEFINE BATCH SIZE HERE: int for regular batch size, float for specified GPU utilization fraction (batch_size=0.70, 70% GPU memory utilization).
+# Choose dataset split for the local client
+train: datasets/fed_dataset_split_1/train/images
+val: datasets/fed_dataset_split_1/valid/images
+test: datasets/fed_dataset_split_1/test/images
+
+nc: 3
+
+names:
+  0: Class1
+  1: Class2
+  2: Class3
+ 
+# Build your ultralytics model here, YOLOv8n pre-configured
+backbone:
+  - [-1, 1, Conv, [16, 3, 2]] 
+  - [-1, 1, Conv, [32, 3, 2]] 
+  - [-1, 1, C2f, [32, True]]
+  - [-1, 1, Conv, [64, 3, 2]]
+  - [-1, 2, C2f, [64, True]] 
+  - [-1, 1, Conv, [128, 3, 2]]  
+  - [-1, 2, C2f, [128, True]] 
+  - [-1, 1, Conv, [256, 3, 2]]  
+  - [-1, 1, C2f, [256, True]]
+  - [-1, 1, SPPF, [256, 5]]
+
+head:
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 6], 1, Concat, [1]]          
+  - [-1, 1, C2f, [128]]                
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 4], 1, Concat, [1]]          
+  - [-1, 1, C2f, [64]]        
+
+  - [-1, 1, Conv, [64, 3, 2]]
+  - [[-1, 10], 1, Concat, [1]]         
+  - [-1, 1, C2f, [128]]     
+
+  - [-1, 1, Conv, [128, 3, 2]]
+  - [[-1, 8], 1, Concat, [1]]          
+  - [-1, 1, C2f, [256]]             
+
+  - [[13, 16, 19], 1, Detect, [nc]]    

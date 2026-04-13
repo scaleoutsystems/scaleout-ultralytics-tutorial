@@ -1,0 +1,5 @@
+entry_points:
+  build: 
+    model.py
+  startup: 
+    startup.py

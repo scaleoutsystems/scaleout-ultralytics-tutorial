@@ -1,9 +1,0 @@
-entry_points:
-    build:
-        command: python3 model.py
-    startup:
-        command: python3 data.py
-    train:
-        command: python3 train.py
-    validate:
-        command: python3 validate.py

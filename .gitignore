@@ -1,0 +1,8 @@
+.scaleout/
+.venv/
+datasets/
+package.tgz
+*__pycache__/
+seed.npz
+.DS_Store
+.python-version
